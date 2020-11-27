@@ -1,16 +1,25 @@
 package Algorithms.Sort;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static java.util.Arrays.asList;
 
 public class QuickSort {
+    private static final int CUTOFF = 10;
+
     private static boolean less(Comparable a, Comparable b) {
         return a.compareTo(b) < 0;
     }
+
+    private static int medianOf3(Comparable[] a, int lo, int mid, int hi) {
+        if (less(a[hi],a[lo])) exch(a, lo, hi);
+        if (less(a[mid],a[lo])) exch(a, mid, lo);
+        if (less(a[hi],a[mid])) exch(a, mid, hi);
+        return mid;
+    }
+
+
     private static void exch(Comparable[] a, int i, int j) {
         Comparable swap = a[i];
         a[i] = a[j];
@@ -35,12 +44,21 @@ public class QuickSort {
         // shuffling is needed for performance guarantee
         List tmp = Arrays.asList(a);
         Collections.shuffle(tmp);
-        tmp.toArray();
+        tmp.toArray(a);
         sort(a, 0 , a.length - 1);
     }
 
     private static void sort(Comparable[] a, int lo, int hi) {
+
+        if (hi <= lo + CUTOFF -1) {
+            InsertionSort.sort(a, lo, hi);
+            return;
+        }
+
         if (hi <= lo) return;
+        int m = medianOf3(a, lo, (lo + hi)/2, hi);
+        exch(a, lo, m);
+
         int j = partition(a, lo, hi);
         sort(a, lo, j-1);
         sort(a, j+1, hi);
@@ -55,7 +73,7 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        Comparable[] a = {7,1,2};
+        Comparable[] a = {1,2,3,4,5};
         sort(a);
         printArray(a);
     }

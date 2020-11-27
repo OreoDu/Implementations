@@ -2,10 +2,10 @@ package Algorithms.Sort;
 
 public class MergeSort {
     private static final int CUTOFF = 7;
+
     private static boolean less(Comparable a, Comparable b) {
         return a.compareTo(b) < 0;
     }
-
 
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
         //assert isSorted(a, lo, mid);
@@ -26,7 +26,6 @@ public class MergeSort {
     }
 
     private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
-        if (hi <= lo) return;
         if (hi <= lo + CUTOFF -1) {
             InsertionSort.sort(a, lo, hi);
             return;
@@ -53,7 +52,7 @@ public class MergeSort {
     }
 
     public static void main(String[] args) {
-        Comparable[] a = {7,1,2,3,4,2,3};
+        Comparable[] a = {7,1,2,3};
         sort(a);
         printArray(a);
     }
